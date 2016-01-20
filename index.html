@@ -38,11 +38,15 @@
 	      				{{ main.topMessage }}
 	      			</div>
 	      		</div>
-	      		<ul ng-repeat="groups in main.groupArray">
+	      		<ul ng-repeat="groups in main.groupArray | orderBy:'groupName'">
 	      			<li style="display:inline" >
 	      				<div class="list-group">
 	      					<span class="list-group-item">
 	      						{{ groups.groupName }}
+	      						<span ng-switch on="groups.groupStatus">
+									<span ng-switch-when="OK" class="label label-success">Up to date</span>
+									<span ng-switch-default class="label label-danger">Lagging behind</span>
+	      						</span>
 	      					</span>
 	      					<ul class="list-group-item" ng-repeat="topic in groups.groupTopic.topics">
 	      						<li style="display:inline">

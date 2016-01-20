@@ -30,37 +30,35 @@ angular.module("monitorApp", [])
 
 				for(i in vm.groups.consumers) {							
 					console.log(i);
-					getGroupDetails(vm.groups.consumers[i]);
+					getGroupStatus(vm.groups.consumers[i]);
 				}
 			}
 		);
 	};
 
-	function getGroupDetails(groupName) {
+	function getGroupDetails(groupName, groupStatus) {
 		$http.get("http://" + burrowHost + ":8000/v2/kafka/local/consumer/"
 		+ groupName + "/topic").success(function(res) {
 			var groupData = {
 				groupName : groupName,
-				groupTopic : res
+				groupTopic : res,
+				groupStatus: groupStatus
 			}
 			vm.groupArray.push(groupData);
 			console.log(groupData);
 		});
 	};
 
-	// function getConsumerTopics(groupName) {
-	// 	$http.get("http://" + burrowHost + ":8000/v2/kafka/local/consumer/"
-	// 		+ groupName + "/topic").success(
-	// 			function(res) {
-	// 				console.log(res);
-	// 				vm.currentConsumerName = groupName;
-	// 				vm.consumerTopics = res;
-	// 				if(vm.currentConsumerTopic !== undefined)
-	// 					getConsumerData(vm.currentConsumerTopic);
-	// 			}	
-	// 		);
-		
-	// };
+	function getGroupStatus(groupName) {
+		$http.get("http://" + burrowHost + ":8000/v2/kafka/local/consumer/"
+			+ groupName + "/status").success(
+				function(res) {
+					console.log("groupStatus");
+					console.log(res.status.status);
+					getGroupDetails(groupName, res.status.status);
+				}
+			);
+	};
 
 	function getConsumerData(groupName, topicName){
 		console.log("haha " + topicName + vm.pollrate);
