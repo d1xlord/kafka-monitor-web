@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+    <head>
+    	<title>KafkaMonitor</title>
+   		<!-- Angular JS -->
+        <script src="js/angular.min.js"></script>
+
+        <!-- JS for monitorApp -->
+        <script src="js/app.js"></script>
+
+        <script src="js/jquery.min.js"></script>
+
+        <!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+
+      	<!-- Latest compiled and minified JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
+    </head>
+    <body ng-app="monitorApp" ng-controller="mainController as main">
+      	
+  		<nav class="navbar navbar-default">
+  			<div class="container-fluid">
+  				<div class="navbar-header">
+  					<a href="" class="navbar-brand">Kafka Monitor</a>
+  				</div>
+  				<div class="navbar-form navbar-right">
+  					<label>pollrate (sec)</label>
+  					<input type="text" class="form-control" placeholder="5" ng-model="main.pollrate" />
+  					<button type="button" class="btn btn-primary" ng-click="main.setVal()">Set</button>
+  				</div>
+  			</div>
+  		</nav>
+      	<div class="container-fluid">
+      		<div class="col-md-6">
+      		<div class="well">
+	      		<div class="navbar navbar-default">
+	      			<div class="navbar-brand">
+	      				{{ main.topMessage }}
+	      			</div>
+	      		</div>
+	      		<ul ng-repeat="groups in main.groupArray">
+	      			<li style="display:inline" >
+	      				<div class="list-group">
+	      					<span class="list-group-item">
+	      						{{ groups.groupName }}
+	      					</span>
+	      					<ul class="list-group-item" ng-repeat="topic in groups.groupTopic.topics">
+	      						<li style="display:inline">
+	      							<button class="btn btn-success" ng-click="main.getConsumerData(groups.groupName, topic)">
+	      								{{ topic }}
+	      							</button>
+	      						</li>
+	      					</ul>
+	      				</div>
+	      			</li>
+	      		</ul>
+      		</div>
+      		</div>
+			
+			<!-- <div class="col-md-6">
+			<div class="well">
+				<div class="navbar navbar-default">
+	      			<div class="navbar-brand">
+	      				Topics for {{ main.currentConsumerName }}
+	      			</div>
+	      		</div>
+	      		<ul ng-repeat="topics in main.consumerTopics.topics">
+	      			<li style="display:inline"><button type="button" class="btn btn-success" ng-click="main.getConsumerData(topics)">{{ topics }}</button></li>
+	      		</ul>
+      		</div>
+      		</div> -->
+			
+			<div class="col-md-6">
+			<div class="well">
+				<h2>{{ main.consumerName }}</h2>
+	      		<p><b>Consumer info for {{ main.currentConsumerTopic }}: </b>{{ main.consumerData }}</p>
+	      		<b>status for {{ main.consumerName }}: </b>
+	      		<p>{{ main.consumerStatus }}</p>
+	      	</div>
+	      	</div>
+      	</div>
+    </body>
+</html>
