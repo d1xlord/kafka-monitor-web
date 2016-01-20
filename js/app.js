@@ -4,11 +4,13 @@ angular.module("monitorApp", [])
 	var vm = this;
 
 	vm.topMessage = "Current groups in Kafka";
-	fetch();
 	vm.groupArray = [];
 	vm.getConsumerData = getConsumerData;
 	vm.pollrate = 5;
 	vm.setVal = setVal;
+	var burrowHost = "192.168.104.64";
+
+	fetch();
 	// vm.getConsumerTopics = getConsumerTopics;
 
 	var p = $interval(getConsumerData, 1000*vm.pollrate);
@@ -21,7 +23,7 @@ angular.module("monitorApp", [])
 
 	function fetch(){
 		vm.groupArray = [];
-		$http.get("http://localhost:8000/v2/kafka/local/consumer").success(
+		$http.get("http://" + burrowHost + ":8000/v2/kafka/local/consumer").success(
 			function(res){
 				console.log(res.consumers);
 				vm.groups = res;
@@ -35,7 +37,7 @@ angular.module("monitorApp", [])
 	};
 
 	function getGroupDetails(groupName) {
-		$http.get("http://localhost:8000/v2/kafka/local/consumer/"
+		$http.get("http://" + burrowHost + ":8000/v2/kafka/local/consumer/"
 		+ groupName + "/topic").success(function(res) {
 			var groupData = {
 				groupName : groupName,
@@ -47,7 +49,7 @@ angular.module("monitorApp", [])
 	};
 
 	// function getConsumerTopics(groupName) {
-	// 	$http.get("http://localhost:8000/v2/kafka/local/consumer/"
+	// 	$http.get("http://" + burrowHost + ":8000/v2/kafka/local/consumer/"
 	// 		+ groupName + "/topic").success(
 	// 			function(res) {
 	// 				console.log(res);
@@ -69,7 +71,7 @@ angular.module("monitorApp", [])
 				groupName = vm.consumerName;
 				topicName = vm.currentConsumerTopic;
 			}
-			$http.get("http://localhost:8000/v2/kafka/local/consumer/"
+			$http.get("http://" + burrowHost + ":8000/v2/kafka/local/consumer/"
 			+ groupName + "/topic/" + topicName).success(
 				function(res) {
 					console.log(res.offsets);
@@ -79,7 +81,7 @@ angular.module("monitorApp", [])
 				}	
 			);
 
-			$http.get("http://localhost:8000/v2/kafka/local/consumer/"
+			$http.get("http://" + burrowHost + ":8000/v2/kafka/local/consumer/"
 			+ groupName + "/status").success(
 				function(res) {
 					vm.consumerStatus = res;

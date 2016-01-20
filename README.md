@@ -19,6 +19,11 @@
 
 **Start Burrow-Monitor**
     
-    Start httpserver at $burrow-monitor-path.
+    Start any httpserver at $burrow-monitor-path.
+
+- *for node, run:*  
+***npm install  
+node server.js***
+
     
     If accessing from same machine, ensure "Cross Origin Resource.." error is avoided.
